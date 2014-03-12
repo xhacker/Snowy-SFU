@@ -7,6 +7,8 @@
 #define GROUND_GRAY glColor3d(.96, .96, .95)
 #define HOUSE_TOP   glColor3d(.69, .51, .36)
 #define HOUSE_BODY  glColor3d(.84, .75, .68)
+#define GREEN_TREE  glColor3d(.30, .38, .19)
+#define GREEN_BACK  glColor3d(.90, .94, .87)
 
 void resize(int width, int height)
 {
@@ -16,6 +18,51 @@ void resize(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glFrustum(-ar, ar, -1.0, 1.0, 2.0, 100.0);
+}
+
+void background()
+{
+    // top-left
+    SKY_GRAY;
+    glPushMatrix();
+        glTranslated(-3, 5.5, -6);
+        glutSolidSphere(6, 50, 50);
+    glPopMatrix();
+
+    // top-right
+    SKY_GRAY;
+    glPushMatrix();
+        glTranslated(3, 5.5, -6);
+        glutSolidSphere(6, 50, 50);
+    glPopMatrix();
+
+    GROUND_GRAY;
+    glPushMatrix();
+        glTranslated(3.5, -7, -6);
+        glutSolidSphere(6, 50, 50);
+    glPopMatrix();
+
+    WHITE;
+    glPushMatrix();
+        glTranslated(0.5, -8, -6);
+        glutSolidSphere(6, 50, 50);
+    glPopMatrix();
+}
+
+void greentree()
+{
+    GREEN_BACK;
+    glPushMatrix();
+    glTranslated(-3, 1.8, -7);
+    glScalef(1.5, 1.5, 1.5);
+    glutSolidSphere(0.35, 5, 5);
+    glPopMatrix();
+
+    GREEN_TREE;
+    glPushMatrix();
+    glTranslated(-3, 1.8, -7);
+    glutWireSphere(0.35, 5, 5);
+    glPopMatrix();
 }
 
 void house()
@@ -46,32 +93,8 @@ void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // top-left
-    SKY_GRAY;
-    glPushMatrix();
-        glTranslated(-3, 5.5, -6);
-        glutSolidSphere(6, 50, 50);
-    glPopMatrix();
-
-    // top-right
-    SKY_GRAY;
-    glPushMatrix();
-        glTranslated(3, 5.5, -6);
-        glutSolidSphere(6, 50, 50);
-    glPopMatrix();
-
-    GROUND_GRAY;
-    glPushMatrix();
-        glTranslated(3.5, -7, -6);
-        glutSolidSphere(6, 50, 50);
-    glPopMatrix();
-
-    WHITE;
-    glPushMatrix();
-        glTranslated(0.5, -8, -6);
-        glutSolidSphere(6, 50, 50);
-    glPopMatrix();
-
+    background();
+    greentree();
     house();
 
     glutSwapBuffers();
