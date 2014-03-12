@@ -30,4 +30,5 @@ profile
 *.moved-aside
 DerivedData
 
+unused.cpp
 myscene
