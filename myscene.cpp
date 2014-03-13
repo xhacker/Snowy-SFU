@@ -1,6 +1,7 @@
 #include <GL/glut.h>
 #include <GL/freeglut_ext.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define WHITE       glColor3d(1.0, 1.0, 1.0)
 #define SKY_GRAY    glColor3d(.94, .94, .92)
@@ -17,7 +18,7 @@ void resize(int width, int height)
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glFrustum(-ar, ar, -1.0, 1.0, 2.0, 100.0);
+    glOrtho(-ar, ar, -1.0, 1.0, 2.0, 100.0);
 }
 
 void background()
@@ -67,25 +68,30 @@ void greentree()
 
 void house()
 {
-    HOUSE_BODY;
+    double size = 0.8;
+
+    WHITE;
     glPushMatrix();
-        glTranslated(-2, -0.01, -7);
-        glScalef(1, 0.8, 1);
-        glutSolidCube(2);
+        glTranslated(-0.9, 0.4, -7);
+        glRotatef(10, -1, 1, 0.08);
+        glScalef(1.05, 0.1, 1.05);
+        glutSolidCube(size);
     glPopMatrix();
 
     HOUSE_TOP;
     glPushMatrix();
-        glTranslated(-2, 1, -7);
-        glScalef(1, 0.2, 1);
-        glutSolidCube(2);
+        glTranslated(-0.9, 0.3, -7);
+        glRotatef(10, -1, 1, 0.06);
+        glScalef(1, 0.15, 1);
+        glutSolidCube(size);
     glPopMatrix();
 
-    WHITE;
+    HOUSE_BODY;
     glPushMatrix();
-        glTranslated(-2, 1.31, -7);
-        glScalef(1, 0.1, 1);
-        glutSolidCube(2);
+        glTranslated(-0.9, 0.0, -7);
+        glRotatef(10, -1, 1, 0.06);
+        glScalef(0.9, 0.6, 0.9);
+        glutSolidCube(size);
     glPopMatrix();
 }
 
