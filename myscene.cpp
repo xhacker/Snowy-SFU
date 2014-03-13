@@ -39,27 +39,6 @@ void background()
     glPopMatrix();
 }
 
-void greentree()
-{
-    double size = 0.12;
-    int parts = 7;
-    double x = -1.1;
-    double y = 0.55;
-
-    GREEN_BACK;
-    glPushMatrix();
-    glTranslated(x, y, -7);
-    glScalef(1.5, 1.5, 1.5);
-    glutSolidSphere(size, parts, parts);
-    glPopMatrix();
-
-    GREEN_TREE;
-    glPushMatrix();
-    glTranslated(x, y, -7);
-    glutWireSphere(size, parts, parts);
-    glPopMatrix();
-}
-
 // [-R..R]
 float myrand(float R)
 {
@@ -91,20 +70,39 @@ void blacktree()
 {
     BLACK_TREE;
     glBegin(GL_LINES);
-    tree(0.5, -0.3, 0.18, 1.5, 7,
+    tree(0.55, -0.3, 0.18, 1.5, 7,
          0.9, 0.15, 0.1);
-    tree(0.9, -0.4, 0.13, 1.5, 6,
+    tree(0.95, -0.4, 0.13, 1.5, 6,
          0.8, 0.2, 0.2);
     glEnd();
-    glFlush();
+}
+
+void greentree()
+{
+    double x = -1.1;
+    double y = 0.55;
+
+    GREEN_BACK;
+    glPushMatrix();
+    glTranslated(x, y - 0.05, -7);
+    glutSolidSphere(0.3, 7, 7);
+    glPopMatrix();
+
+    GREEN_TREE;
+    glBegin(GL_LINES);
+    tree(x - 0.07, y - 0.2, 0.07, 1.5, 6,
+         0.9, 0.3, 0.1);
+    tree(x + 0.1, y - 0.2, 0.05, 1.5, 6,
+         0.9, 0.3, 0.1);
+    glEnd();
 }
 
 void house()
 {
     BLACK_TREE;
     glBegin(GL_LINES);
-    tree(-0.65, 0.3, 0.08, 1.5, 6,
-         0.9, 0.3, 0.2);
+    tree(-0.65, 0.3, 0.1, 1.5, 5,
+         0.9, 0.1, 0.1);
     glEnd();
 
     double size = 0.8;
@@ -154,6 +152,8 @@ void display()
     greentree();
     house();
     blacktree();
+
+    glFlush();
 }
 
 int main(int argc, char *argv[])
