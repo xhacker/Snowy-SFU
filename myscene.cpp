@@ -10,6 +10,7 @@
 #define HOUSE_BODY  glColor3d(.84, .75, .68)
 #define GREEN_TREE  glColor3d(.30, .38, .19)
 #define GREEN_BACK  glColor3d(.90, .94, .87)
+#define BLACK_TREE  glColor3d(.24, .19, .18)
 
 void resize(int width, int height)
 {
@@ -18,7 +19,7 @@ void resize(int width, int height)
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-ar, ar, -1.0, 1.0, 2.0, 100.0);
+    glOrtho(-ar, ar, -1.0, 1.0, -100.0, 100.0);
 }
 
 void background()
@@ -36,18 +37,6 @@ void background()
         glTranslated(2, 5.7, -6);
         glutSolidSphere(6, 50, 50);
     glPopMatrix();
-
-    // GROUND_GRAY;
-    // glPushMatrix();
-    //     glTranslated(1.55, -4.4, -6);
-    //     glutSolidSphere(4, 50, 50);
-    // glPopMatrix();
-
-    // WHITE;
-    // glPushMatrix();
-    //     glTranslated(0.2, -2.8, -6);
-    //     glutSolidSphere(2.2, 50, 50);
-    // glPopMatrix();
 }
 
 void greentree()
@@ -71,15 +60,60 @@ void greentree()
     glPopMatrix();
 }
 
+// [-R..R]
+float myrand(float R)
+{
+   return (2 * R * rand()) / RAND_MAX - R;
+}
+
+void tree(float x1, float y1, float length1, float angle1, int depth,
+          float scale, float angle, float rand_r)
+{
+    if (depth > 0)
+    {
+        // draw line segment
+        float x2 = x1 + length1 * cos(angle1);
+        float y2 = y1 + length1 * sin(angle1);
+        glVertex2f(x1, y1);
+        glVertex2f(x2, y2);
+
+        // recursive calls
+        float length2 = length1 * (scale + myrand(rand_r));
+        float angle2 = angle1 + angle + myrand(rand_r);
+        tree(x2, y2, length2, angle2, depth-1, scale, angle, rand_r);
+        length2 = length1 * (scale + myrand(rand_r));
+        angle2 = angle1 - angle + myrand(rand_r);
+        tree(x2, y2, length2, angle2, depth-1, scale, angle, rand_r);
+    }
+}
+
+void blacktree()
+{
+    BLACK_TREE;
+    glBegin(GL_LINES);
+    tree(0.5, -0.3, 0.18, 1.5, 7,
+         0.9, 0.15, 0.1);
+    tree(0.9, -0.4, 0.13, 1.5, 6,
+         0.8, 0.2, 0.2);
+    glEnd();
+    glFlush();
+}
+
 void house()
 {
+    BLACK_TREE;
+    glBegin(GL_LINES);
+    tree(-0.65, 0.3, 0.08, 1.5, 6,
+         0.9, 0.3, 0.2);
+    glEnd();
+
     double size = 0.8;
 
     WHITE;
     glPushMatrix();
         glTranslated(-0.9, 0.4, -7);
         glRotatef(10, -1, 1, 0.08);
-        glScalef(1.05, 0.1, 1.05);
+        glScalef(1.03, 0.08, 1.03);
         glutSolidCube(size);
     glPopMatrix();
 
@@ -119,8 +153,7 @@ void display()
     background();
     greentree();
     house();
-
-    glutSwapBuffers();
+    blacktree();
 }
 
 int main(int argc, char *argv[])
@@ -128,7 +161,7 @@ int main(int argc, char *argv[])
     glutInit(&argc, argv);
     glutInitWindowSize(960, 640);
     glutInitWindowPosition(10, 10);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE | GLUT_DEPTH);
 
     glutCreateWindow("Snowy SFU");
 
