@@ -80,7 +80,7 @@ void blacktree()
 void greentree()
 {
     double x = -1.1;
-    double y = 0.55;
+    double y = 0.45;
 
     GREEN_BACK;
     glPushMatrix();
@@ -101,7 +101,7 @@ void house()
 {
     BLACK_TREE;
     glBegin(GL_LINES);
-    tree(-0.65, 0.3, 0.1, 1.5, 5,
+    tree(-0.65, 0.2, 0.1, 1.5, 5,
          0.9, 0.1, 0.1);
     glEnd();
 
@@ -109,7 +109,13 @@ void house()
 
     WHITE;
     glPushMatrix();
-        glTranslated(-0.9, 0.4, -7);
+        glTranslated(-0.9, 0.3, -7);
+        glRotatef(10, -1, 1, 0.08);
+        glScalef(1.03, 0.08, 1.03);
+        glutSolidCube(size);
+    glPopMatrix();
+    glPushMatrix();
+        glTranslated(-1.2, 0.22, -7);
         glRotatef(10, -1, 1, 0.08);
         glScalef(1.03, 0.08, 1.03);
         glutSolidCube(size);
@@ -117,7 +123,13 @@ void house()
 
     HOUSE_TOP;
     glPushMatrix();
-        glTranslated(-0.9, 0.3, -7);
+        glTranslated(-0.9, 0.2, -7);
+        glRotatef(10, -1, 1, 0.06);
+        glScalef(1, 0.15, 1);
+        glutSolidCube(size);
+    glPopMatrix();
+    glPushMatrix();
+        glTranslated(-1.2, 0.12, -7);
         glRotatef(10, -1, 1, 0.06);
         glScalef(1, 0.15, 1);
         glutSolidCube(size);
@@ -125,7 +137,13 @@ void house()
 
     HOUSE_BODY;
     glPushMatrix();
-        glTranslated(-0.9, 0.0, -7);
+        glTranslated(-0.9, -0.1, -7);
+        glRotatef(10, -1, 1, 0.06);
+        glScalef(0.9, 0.6, 0.9);
+        glutSolidCube(size);
+    glPopMatrix();
+    glPushMatrix();
+        glTranslated(-1.2, -0.18, -7);
         glRotatef(10, -1, 1, 0.06);
         glScalef(0.9, 0.6, 0.9);
         glutSolidCube(size);
