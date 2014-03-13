@@ -26,27 +26,27 @@ void background()
     // top-left
     SKY_GRAY;
     glPushMatrix();
-        glTranslated(-3, 5.5, -6);
+        glTranslated(-2, 5.7, -6);
         glutSolidSphere(6, 50, 50);
     glPopMatrix();
 
     // top-right
     SKY_GRAY;
     glPushMatrix();
-        glTranslated(3, 5.5, -6);
+        glTranslated(2, 5.7, -6);
         glutSolidSphere(6, 50, 50);
     glPopMatrix();
 
     GROUND_GRAY;
     glPushMatrix();
-        glTranslated(3.5, -7, -6);
-        glutSolidSphere(6, 50, 50);
+        glTranslated(1.55, -4.4, -6);
+        glutSolidSphere(4, 50, 50);
     glPopMatrix();
 
     WHITE;
     glPushMatrix();
-        glTranslated(0.5, -8, -6);
-        glutSolidSphere(6, 50, 50);
+        glTranslated(0.2, -2.8, -6);
+        glutSolidSphere(2.2, 50, 50);
     glPopMatrix();
 }
 
