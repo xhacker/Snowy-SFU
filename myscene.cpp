@@ -37,32 +37,37 @@ void background()
         glutSolidSphere(6, 50, 50);
     glPopMatrix();
 
-    GROUND_GRAY;
-    glPushMatrix();
-        glTranslated(1.55, -4.4, -6);
-        glutSolidSphere(4, 50, 50);
-    glPopMatrix();
+    // GROUND_GRAY;
+    // glPushMatrix();
+    //     glTranslated(1.55, -4.4, -6);
+    //     glutSolidSphere(4, 50, 50);
+    // glPopMatrix();
 
-    WHITE;
-    glPushMatrix();
-        glTranslated(0.2, -2.8, -6);
-        glutSolidSphere(2.2, 50, 50);
-    glPopMatrix();
+    // WHITE;
+    // glPushMatrix();
+    //     glTranslated(0.2, -2.8, -6);
+    //     glutSolidSphere(2.2, 50, 50);
+    // glPopMatrix();
 }
 
 void greentree()
 {
+    double size = 0.12;
+    int parts = 7;
+    double x = -1.1;
+    double y = 0.55;
+
     GREEN_BACK;
     glPushMatrix();
-    glTranslated(-3, 1.8, -7);
+    glTranslated(x, y, -7);
     glScalef(1.5, 1.5, 1.5);
-    glutSolidSphere(0.35, 5, 5);
+    glutSolidSphere(size, parts, parts);
     glPopMatrix();
 
     GREEN_TREE;
     glPushMatrix();
-    glTranslated(-3, 1.8, -7);
-    glutWireSphere(0.35, 5, 5);
+    glTranslated(x, y, -7);
+    glutWireSphere(size, parts, parts);
     glPopMatrix();
 }
 
@@ -92,6 +97,18 @@ void house()
         glRotatef(10, -1, 1, 0.06);
         glScalef(0.9, 0.6, 0.9);
         glutSolidCube(size);
+    glPopMatrix();
+
+    GROUND_GRAY;
+    glPushMatrix();
+        glTranslated(-0.55, -2.05, -6);
+        glutSolidSphere(1.93, 50, 50);
+    glPopMatrix();
+
+    WHITE;
+    glPushMatrix();
+        glTranslated(-1.05, -2.2, -6);
+        glutSolidSphere(2, 50, 50);
     glPopMatrix();
 }
 
