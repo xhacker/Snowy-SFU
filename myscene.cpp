@@ -4,13 +4,23 @@
 #include <math.h>
 
 #define WHITE       glColor3d(1.0, 1.0, 1.0)
-#define SKY_GRAY    glColor3d(.94, .94, .92)
+#define MOON        glColor3d(.98, .87, .16)
+#define SKY_GRAY    glColor3d(.00, .10, .18)
 #define GROUND_GRAY glColor3d(.96, .96, .95)
 #define HOUSE_TOP   glColor3d(.69, .51, .36)
 #define HOUSE_BODY  glColor3d(.84, .75, .68)
 #define GREEN_TREE  glColor3d(.30, .38, .19)
-#define GREEN_BACK  glColor3d(.90, .94, .87)
-#define BLACK_TREE  glColor3d(.24, .19, .18)
+#define BLACK_TREE  glColor3d(.44, .39, .38)
+
+const GLfloat light_ambient[]  = { 0.0f, 0.0f, 0.0f, 1.0f };
+const GLfloat light_diffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
+const GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+const GLfloat light_position[] = { 2.0f, 5.0f, 5.0f, 0.0f };
+
+const GLfloat mat_ambient[]    = { 0.7f, 0.7f, 0.7f, 1.0f };
+const GLfloat mat_diffuse[]    = { 0.8f, 0.8f, 0.8f, 1.0f };
+const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
+const GLfloat high_shininess[] = { 100.0f };
 
 void resize(int width, int height)
 {
@@ -28,14 +38,23 @@ void background()
     SKY_GRAY;
     glPushMatrix();
         glTranslated(-2, 5.7, -6);
-        glutSolidSphere(6, 50, 50);
+        glutSolidSphere(6, 200, 200);
     glPopMatrix();
 
     // top-right
     SKY_GRAY;
     glPushMatrix();
         glTranslated(2, 5.7, -6);
-        glutSolidSphere(6, 50, 50);
+        glutSolidSphere(6, 200, 200);
+    glPopMatrix();
+}
+
+void moon()
+{
+    MOON;
+    glPushMatrix();
+        glTranslated(0.8, 0.6, -6);
+        glutSolidSphere(0.2, 200, 200);
     glPopMatrix();
 }
 
@@ -66,6 +85,32 @@ void tree(float x1, float y1, float length1, float angle1, int depth,
     }
 }
 
+void stars()
+{
+    for (int i = 0; i < 233 / 2; ++i) {
+        if (i % 3 == 0) {
+            MOON;
+        }
+        else {
+            WHITE;
+        }
+        double x = myrand(3);
+        double y = myrand(0.5) + 0.5;
+        glBegin(GL_POINTS);
+        glVertex2f(x, y);
+        glEnd();
+    }
+
+    WHITE;
+    for (int i = 0; i < 233; ++i) {
+        double x = myrand(3);
+        double y = myrand(0.25) + 0.75;
+        glBegin(GL_POINTS);
+        glVertex2f(x, y);
+        glEnd();
+    }
+}
+
 void blacktree()
 {
     BLACK_TREE;
@@ -81,12 +126,6 @@ void greentree()
 {
     double x = -1.1;
     double y = 0.45;
-
-    GREEN_BACK;
-    glPushMatrix();
-    glTranslated(x, y - 0.05, -7);
-    glutSolidSphere(0.3, 7, 7);
-    glPopMatrix();
 
     GREEN_TREE;
     glBegin(GL_LINES);
@@ -109,27 +148,44 @@ void house()
 
     WHITE;
     glPushMatrix();
-        glTranslated(-0.9, 0.3, -7);
-        glRotatef(10, -1, 1, 0.08);
-        glScalef(1.03, 0.08, 1.03);
-        glutSolidCube(size);
-    glPopMatrix();
-    glPushMatrix();
         glTranslated(-1.2, 0.22, -7);
         glRotatef(10, -1, 1, 0.08);
         glScalef(1.03, 0.08, 1.03);
         glutSolidCube(size);
     glPopMatrix();
+    glPushMatrix();
+        glTranslated(-0.9, 0.3, -7);
+        glRotatef(10, -1, 1, 0.08);
+        glScalef(1.03, 0.08, 1.03);
+        glutSolidCube(size);
+    glPopMatrix();
+
+
+    glEnable(GL_LIGHT0);
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_LIGHTING);
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT,  light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT,   mat_ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE,   mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR,  mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+
 
     HOUSE_TOP;
     glPushMatrix();
-        glTranslated(-0.9, 0.2, -7);
+        glTranslated(-1.2, 0.10, -7);
         glRotatef(10, -1, 1, 0.06);
         glScalef(1, 0.15, 1);
         glutSolidCube(size);
     glPopMatrix();
     glPushMatrix();
-        glTranslated(-1.2, 0.12, -7);
+        glTranslated(-0.9, 0.2, -7);
         glRotatef(10, -1, 1, 0.06);
         glScalef(1, 0.15, 1);
         glutSolidCube(size);
@@ -137,13 +193,13 @@ void house()
 
     HOUSE_BODY;
     glPushMatrix();
-        glTranslated(-0.9, -0.1, -7);
+        glTranslated(-1.2, -0.19, -7);
         glRotatef(10, -1, 1, 0.06);
         glScalef(0.9, 0.6, 0.9);
         glutSolidCube(size);
     glPopMatrix();
     glPushMatrix();
-        glTranslated(-1.2, -0.18, -7);
+        glTranslated(-0.9, -0.1, -7);
         glRotatef(10, -1, 1, 0.06);
         glScalef(0.9, 0.6, 0.9);
         glutSolidCube(size);
@@ -152,14 +208,20 @@ void house()
     GROUND_GRAY;
     glPushMatrix();
         glTranslated(-0.55, -2.05, -6);
-        glutSolidSphere(1.93, 50, 50);
+        glutSolidSphere(1.93, 200, 200);
     glPopMatrix();
 
     WHITE;
     glPushMatrix();
         glTranslated(-1.05, -2.2, -6);
-        glutSolidSphere(2, 50, 50);
+        glutSolidSphere(2, 200, 200);
     glPopMatrix();
+
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_LIGHT0);
+    glDisable(GL_NORMALIZE);
+    glDisable(GL_COLOR_MATERIAL);
+    glDisable(GL_LIGHTING);
 }
 
 void display()
@@ -168,6 +230,8 @@ void display()
 
     background();
     greentree();
+    moon();
+    stars();
     house();
     blacktree();
 
