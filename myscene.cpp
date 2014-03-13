@@ -238,6 +238,17 @@ void display()
     glFlush();
 }
 
+void keyboard(unsigned char key, int x, int y)
+{
+    switch (key) {
+    case 033: // Escape Key
+    case 'q':
+    case 'Q':
+        exit(EXIT_SUCCESS);
+        break;
+    }
+}
+
 int main(int argc, char *argv[])
 {
     glutInit(&argc, argv);
@@ -249,6 +260,7 @@ int main(int argc, char *argv[])
 
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
+    glutKeyboardFunc(keyboard);
 
     glClearColor(1, 1, 1, 1);
     glEnable(GL_CULL_FACE);
